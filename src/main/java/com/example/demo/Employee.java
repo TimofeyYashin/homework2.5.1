@@ -37,6 +37,9 @@ public class Employee {
     public int hashCode() {
         return Objects.hash(firstName, lastName);
     }
+    public String getFullName (){
+        return firstName + " " + lastName;
+    }
 
     @Override
     public String toString() {
@@ -45,5 +48,6 @@ public class Employee {
                 ", lastName='" + lastName + '\'' +
                 '}';
     }
+
 }
 
