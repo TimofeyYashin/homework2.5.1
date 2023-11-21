@@ -1,39 +1,37 @@
 package com.example.demo.Controller;
 import com.example.demo.Employee;
-import com.example.demo.EmployeeService;
+import Service.EmployeeServiceImpl;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
-import java.util.Map;
-
 @RequestMapping("/employee")
 @RestController
 public class EmployeeController {
-    private final EmployeeService employeeService;
+    private final EmployeeServiceImpl employeeService;
 
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController(EmployeeServiceImpl employeeService) {
         this.employeeService = employeeService;
     }
 
     @GetMapping("/add")
-    public Employee add(@RequestParam String firstName, String lastName) {
-        return employeeService.addEmployee(firstName, lastName);
+    public Employee add(@RequestParam String firstName, String lastName, int salary, int department) {
+        return employeeService.addEmployee(firstName, lastName, salary, department);
     }
 
     @GetMapping("/remove")
-    public Employee remove(@RequestParam String firstName, String lastName) {
-        return employeeService.deleteEmployee(firstName, lastName);
+    public Employee remove(@RequestParam String firstName, String lastName, int salary, int department) {
+        return employeeService.deleteEmployee(firstName, lastName, salary, department);
     }
 
     @GetMapping("/find")
-    public Employee find(@RequestParam String firstName, String lastName) {
-        return employeeService.findEmployee(firstName, lastName);
+    public Employee find(@RequestParam String firstName, String lastName, int salary, int department) {
+        return employeeService.findEmployee(firstName, lastName, salary, department);
     }
-    @GetMapping
-    public Map<String,Employee> getAll () {
-        return employeeService.getEmployeeMap();
-    }
+
+
+
+
+
 }
