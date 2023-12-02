@@ -2,6 +2,8 @@ package Service;
 import com.example.demo.Employee;
 import com.example.demo.Exception.EmployeeAlreadyAddedException;
 import com.example.demo.Exception.EmployeeNotFoundException;;
+import com.example.demo.Exception.ValidateException;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
@@ -30,6 +32,9 @@ public class EmployeeServiceImpl implements EmployeeService {
    private final Map<String, Employee> employeeMap = new HashMap<>();
 
     public Employee addEmployee(String firstName, String lastName, int salary, int department) {
+        if (!validateInput(firstName,lastName)) {
+            throw new ValidateException();
+        }
         Employee employee = new Employee(firstName, lastName, salary, department);
         if (employeeMap.containsKey(employee.getFullName())) {
             throw new EmployeeAlreadyAddedException("Сотрудник с таким ФИО в наличии");
@@ -38,7 +43,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         return new Employee(firstName, lastName, salary, department);
     }
 
-    public Employee deleteEmployee(String firstName, String lastName,int salary, int department) {
+    public Employee deleteEmployee(String firstName, String lastName, int salary, int department) {
+        if (!validateInput(firstName, lastName)) {
+            throw new ValidateException();
+        }
         Employee employee = new Employee(firstName, lastName, salary, department);
         if (employeeMap.containsKey(employee.getFullName())) {
             employeeMap.remove(employee.getFullName());
@@ -48,6 +56,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     public Employee findEmployee(String firstName, String lastName, int salary, int department) {
+        if (!validateInput(firstName, lastName)) {
+            throw new ValidateException();
+        }
         Employee employee = new Employee(firstName, lastName, salary, department);
         if (employeeMap.containsKey(employee.getFullName())) {
             return employeeMap.get(employee.getFullName());
@@ -58,6 +69,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Map<String, Employee> getAll() {
         return employeeMap;
+    }
+
+    private boolean validateInput (String firstName, String lastName){
+     return StringUtils.isAlpha(firstName) && StringUtils.isAlpha(lastName);
     }
 }
 
